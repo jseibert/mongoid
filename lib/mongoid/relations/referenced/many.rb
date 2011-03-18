@@ -261,7 +261,8 @@ module Mongoid #:nodoc:
         #
         # @since 2.0.0.rc.1
         def append(document, options = {})
-          load!(options) and target.push(document)
+          load!(options) if metadata.embedded?
+          target.push(document) if loaded?
           characterize_one(document)
           binding.bind_one(document, options)
         end
